@@ -1,52 +1,93 @@
 # Excel Power Query | Data Cleaning, Consolidation & Transformation
 
-**Three Excel Power Query portfolio projects | LumaWorks Retail (fictional business case)**
+**Three practical Excel Power Query case studies · LumaWorks Retail (fictional business scenario)**
 
-A practical, refreshable Excel Power Query portfolio demonstrating how messy and fragmented business records can be prepared for reliable reporting. The work uses **customized synthetic training data** organized around LumaWorks Retail, a fictional business operating marketing campaigns, a puzzle-products division, and a specialty-coffee line.
+This portfolio demonstrates how a data operations workflow can turn messy spreadsheets, separately delivered sales files, and wide monthly reports into **clean, structured, refreshable Excel outputs**.
 
-The focus is on **data operations and repeatable data preparation**: source ingestion, data-quality improvements, folder-based consolidation, reshaping, and verification. These are educational portfolio exercises, **not work performed for an actual client**.
+The datasets are **synthetic, customized training exercises**, not records from a real employer or client. The analysis, transformation workflows, validation, and portable-file setup are presented as practical portfolio work.
 
-## At a glance
+## Project overview
 
-| Project | Business challenge | Power Query solution | Verified outcome |
-|---|---|---|---|
-| **01 — Marketing Data Cleaning** | Grouped labels, inconsistent text, sparse metrics | Promote headers, fill down, standardize text, preserve unknowns, calculate a ratio | **154** marketing records retained |
-| **02 — Multi-Year Sales Consolidation** | Annual product sales stored in separate CSV files | Combine all CSVs from a folder, standardize types, add a quarter field, refresh | **480** records across **2023–2026**, 120 per year |
-| **03 — Monthly Coffee Sales Restructuring** | Product-by-month sales laid out as a wide matrix | Import a workbook named range, unpivot monthly columns, assign reporting dates, summarize in PivotTable | **240** product-month records; **59,773** total units sold |
+| Case study | Business problem | Power Query workflow | Verified output |
+|:---|:---|:---|:---|
+| **01 · Marketing Data Cleaning** | Inconsistent campaign labels, blank group fields, and incomplete sales figures | Header cleanup, Fill Down, text standardization, missing-value handling, ratio calculation, explicit data types | **154 records** |
+| **02 · Multi-Year Sales Consolidation** | Annual sales spread across separate CSV files | Folder-based ingestion, standardized transformations, date typing, quarter calculation, refresh | **480 records** · 2023–2026 |
+| **03 · Monthly Coffee Sales Transformation** | Product-by-month sales matrix unsuitable for row-based reporting | Named-range ingestion, unpivoting, month-to-date conversion, quarterly PivotTable | **240 records** · **59,773 units** |
 
-## Project details
+---
 
-### 01 — Marketing Data Cleaning
+## 01 · Marketing Data Cleaning
 
-**Business need:** Prepare campaign performance records for consistent operational review, despite blank group labels, formatting inconsistencies, and missing units-sold values.
+**Business challenge.** Marketing records arrived with grouped campaign/channel labels, extra heading and spacer rows, text inconsistencies, and missing `Units Sold` values. The business needed a dependable, report-ready table without misrepresenting unknown sales figures.
 
-**Workflow:** Imported an Excel sheet into Power Query, removed excess header rows and separator rows, promoted proper headers, filled down grouping information, normalized text values, set appropriate data types, and computed `Conversion = Units Sold / Clicks` where inputs were present.
+**Transformation.** Imported the Excel source, removed redundant rows, promoted headers, filled down campaign and location labels, standardized and trimmed text, created `Conversion = Units Sold / Clicks`, and assigned appropriate Date, Text, Whole Number, and Decimal Number data types.
 
-**Data-quality checks:** 154 observations retained; campaign names and channel locations populated; three missing `Units Sold` values intentionally kept as unknown rather than interpreted as zero. The `Conversion` metric is a **units-per-click ratio**, not a verified order-level/customer-level conversion rate.
+**Quality outcome.** **154 records preserved**. Campaign and location fields are populated; three genuinely missing `Units Sold` values remain null, as do their calculated ratios. Here, *Conversion* means **units sold per click**, not a verified customer-level purchase-conversion rate.
 
-**Deliverable:** [`LumaWorks_Retail_Marketing_Data_Cleaned.xlsx`](LumaWorks_Retail_Marketing_Data_Cleaned.xlsx)
+**Excel deliverable:** [`LumaWorks_Retail_Marketing_Data_Cleaned.xlsx`](LumaWorks_Retail_Marketing_Data_Cleaned.xlsx)
 
-### 02 — Multi-Year Sales Consolidation
+| Refreshed Excel output | Power Query cleaning and validation steps |
+|:---:|:---:|
+| ![Marketing output table showing 154 records loaded](screenshots/01-marketing-cleaned-output.png) | ![Marketing Power Query final typed columns and applied steps](screenshots/02-marketing-power-query-steps.png) |
+| 154 cleaned records; calculated conversion field | Repeatable steps, including Fill Down, trimming, and final typing |
 
-**Business need:** Replace manual annual workbook updates with a reliable consolidation process.
+## 02 · Multi-Year Sales Consolidation
 
-**Workflow:** Power Query reads yearly CSVs from one source folder, applies common transformations to incoming files, creates a `Quarter` field from each date, and loads the combined table. A 2026 CSV was added after configuring the initial years to demonstrate that **Refresh All** incorporates newly added files.
+**Business challenge.** Product-sales data was delivered as separate annual CSV files. Manually combining each year's records created avoidable work and increased the risk of inconsistent transformations.
 
-**Data-quality checks:** 120 observations per year for 2023, 2024, 2025, and 2026; **480** records overall; no missing or duplicate product-month keys in the validated set.
+**Transformation.** Built a **folder-based Power Query consolidation** that detects CSV files, applies consistent transformations, standardizes field types, adds a `Quarter` field, and refreshes when new annual files arrive. Added the 2026 file to the source folder and refreshed the query to extend the existing three-year result.
 
-**Deliverable:** [`LumaWorks_Retail_Multi_Year_Sales_Consolidation.xlsx`](LumaWorks_Retail_Multi_Year_Sales_Consolidation.xlsx)
+**Quality outcome.** **480 records across four years (120 per year)**, with no missing or duplicate product-month combinations in the validated dataset.
 
-### 03 — Monthly Coffee Sales Restructuring
+**Excel deliverable:** [`LumaWorks_Retail_Multi_Year_Sales_Consolidation.xlsx`](LumaWorks_Retail_Multi_Year_Sales_Consolidation.xlsx)
 
-**Business need:** Turn 12 month columns across 20 products into a consistent row-based reporting dataset.
+| Folder-combine transformation | Consolidated output after refresh |
+|:---:|:---:|
+| ![Sales Power Query folder combine and applied steps](screenshots/03-sales-power-query-transformation.png) | ![Excel consolidated sales query with 480 rows loaded and 2026 records](screenshots/04-sales-consolidated-output.png) |
+| Folder ingestion, helper queries, and type/quarter transformations | 2026 incorporated successfully; 480 rows loaded |
 
-**Workflow:** Reads the Excel named range `SalesData` with `Excel.CurrentWorkbook()`, promotes headers, unpivots months to rows, standardizes the month-year date, types `Units Sold`, and supports quarterly reporting through a PivotTable. Subsequent months were incorporated into the source range and the query was refreshed.
+## 03 · Monthly Coffee Sales Transformation
 
-**Data-quality checks:** 20 products × 12 months = **240** records; quarterly totals are 15,568, 14,775, 14,131, and 15,299 units, respectively, totaling **59,773**. The workbook's saved result includes the quarterly PivotTable; a separate PivotChart is not claimed here.
+**Business challenge.** Monthly units sold for 20 coffee products were maintained across 12 separate month columns. That wide layout made consistent product-month reporting and aggregation harder.
 
-**Deliverable:** [`LumaWorks_Retail_Monthly_Coffee_Sales_Unpivoted.xlsx`](LumaWorks_Retail_Monthly_Coffee_Sales_Unpivoted.xlsx)
+**Transformation.** Connected Power Query to the workbook's `SalesData` named range, promoted headers, **unpivoted** month columns, converted month labels into dates, applied field types, and refreshed after adding further months to the source. Created a quarterly Excel PivotTable from the transformed data.
 
-## Repository contents
+**Quality outcome.** **20 products × 12 months = 240 product-month records.** Quarterly totals reconcile to **59,773 units sold**. The deliverable includes a PivotTable; no PivotChart is claimed.
+
+**Excel deliverable:** [`LumaWorks_Retail_Monthly_Coffee_Sales_Unpivoted.xlsx`](LumaWorks_Retail_Monthly_Coffee_Sales_Unpivoted.xlsx)
+
+| Before · Wide monthly source | After · Unpivoted Power Query output |
+|:---:|:---:|
+| ![Wide coffee sales input with Jan-Dec columns](screenshots/05-coffee-sales-original-wide-format.png) | ![Unpivoted coffee dataset with Coffee, Date and Units Sold columns](screenshots/06-coffee-sales-power-query-unpivot.png) |
+| 20 products represented across 12 month columns | Structured Coffee / Date / Units Sold records |
+
+**Quarterly reporting output**
+
+<div align="center">
+  <img src="screenshots/07-coffee-sales-quarterly-summary.png" width="820" alt="Coffee sales PivotTable showing Q1–Q4 and a 59,773-unit grand total" />
+  <p><em>Four quarterly totals reconciled to 59,773 units sold; 240 records loaded.</em></p>
+</div>
+
+---
+
+## Download and refresh the workbooks
+
+**Requirements:** Microsoft Excel for Windows with Power Query.
+
+1. Download or clone this **entire repository** and preserve the directory layout below.
+2. Open the desired `.xlsx` workbook in Excel desktop. Enable data connections **only after reviewing and trusting the files**.
+3. For Projects 01 and 02, check the `Config` worksheet: its `tblSourcePath` value should point to the corresponding file/folder inside this repository's `source_data` directory. If moved, save/reopen the workbook and recalculate the formula if necessary.
+4. Select **Data → Refresh All**. Check that each query loads the expected record count.
+
+| Project | Source strategy | Refresh check |
+|:---|:---|:---|
+| Marketing | `File.Contents()` reads `source_data/Marketing_Data.xlsx` via `tblSourcePath` | **154** rows |
+| Sales | `Folder.Files()` and the `Sample File` helper use the configured `source_data/Sales` directory | **480** rows |
+| Coffee | `Excel.CurrentWorkbook()` reads the internal `SalesData` named range | **240** rows; PivotTable total **59,773** |
+
+The portable location formulas are designed for **local Windows folders**; GitHub's web preview cannot execute Power Query. Moving *only* the external-source workbooks without `source_data/` will prevent their refresh. New coffee source records outside the named range may require the range to be expanded.
+
+### Repository layout
 
 ```text
 excel-power-query-data-cleaning-transformation/
@@ -54,6 +95,14 @@ excel-power-query-data-cleaning-transformation/
 ├── LumaWorks_Retail_Marketing_Data_Cleaned.xlsx
 ├── LumaWorks_Retail_Multi_Year_Sales_Consolidation.xlsx
 ├── LumaWorks_Retail_Monthly_Coffee_Sales_Unpivoted.xlsx
+├── screenshots/
+│   ├── 01-marketing-cleaned-output.png
+│   ├── 02-marketing-power-query-steps.png
+│   ├── 03-sales-power-query-transformation.png
+│   ├── 04-sales-consolidated-output.png
+│   ├── 05-coffee-sales-original-wide-format.png
+│   ├── 06-coffee-sales-power-query-unpivot.png
+│   └── 07-coffee-sales-quarterly-summary.png
 └── source_data/
     ├── Marketing_Data.xlsx
     └── Sales/
@@ -63,30 +112,17 @@ excel-power-query-data-cleaning-transformation/
         └── RubiksCubeSales_2026.csv
 ```
 
-*The `source_data` directory is needed for external-file refresh. Include only source files you have the right to redistribute publicly.*
+## Scope and verification
 
-## Reproduce the transformations
+- **Educational portfolio:** LumaWorks Retail is fictional; the values do not represent real commercial performance.
+- **Data integrity:** Record counts and output totals are based on the validated customized exercise datasets. Data-source configuration was moved to a different folder and refresh-tested by the project author.
+- **Missing values:** The marketing project retains genuinely unknown sales values rather than converting them to zero.
+- **Reproducibility:** Power Query steps are preserved inside the `.xlsx` files; download them to inspect **Queries & Connections → Applied Steps**.
 
-**Requirements:** Microsoft Excel for Windows with Power Query. Download/clone the **entire repository**, preserving the folder layout shown above, then open the `.xlsx` workbooks in Excel desktop.
+## Learning source and attribution
 
-- **Marketing:** The workbook's `Config` sheet contains `tblSourcePath`, which derives the location of `source_data\Marketing_Data.xlsx` from the workbook's current saved directory. Check the path, then choose **Data → Refresh All**. Expected output: **154** rows.
-- **Sales:** Its `Config` table similarly derives the path to `source_data\Sales`. Both the `Sales` and `Sample File` helper queries must use this location. Choose **Data → Refresh All**. Expected output: **480** rows.
-- **Coffee:** The query uses the internal `SalesData` named range; no external directory is required. Refresh to reproduce **240** records and a **59,773-unit** quarterly grand total.
-
-The two external-source workbooks must sit **in the repository root beside `source_data/`**. Moving only the `.xlsx` files, without their source folder, breaks refresh. The dynamic path formulas use `CELL("filename")`, so save/reopen the workbooks and recalculate formulas if the directory changes. Excel may ask you to authorize data connections or adjust privacy permissions; enable connections only when you trust the files.
-
-## Verification and limitations
-
-- Source files and results use fictional, synthetic/adapted training records; figures are not real LumaWorks transactions.
-- The marketing project retains truly unknown units-sold values as missing; they were not imputed as zero.
-- The coffee workbook uses a **fixed-size named range**; adding further rows beyond its boundaries requires expanding that range.
-- `.xlsx` files contain the Power Query transformations. GitHub may not show interactive Excel connections in a browser preview: download and open in Excel desktop to inspect **Data → Queries & Connections → Applied Steps**.
-- The portfolio folder was moved to another location and its refreshable connection setup was tested in Excel by the project author.
-
-## Learning-source attribution
-
-The original instructional workflow and exercise structure were adapted from **XelPlus / Leila Gharani**, *Learn to Automate Everything with Power Query in Excel*. The LumaWorks framing, customized synthetic records, execution, validation, reproducibility configuration, and portfolio documentation are presented as portfolio work. Any third-party training materials remain the property of their respective owners; source files should be published only if redistribution is authorized.
+The training workflow and initial exercise structure were adapted from **XelPlus / Leila Gharani**, *Learn to Automate Everything with Power Query in Excel*. The fictional business context, customized synthetic data, completed transformations, quality checks, portable configuration, and portfolio write-up are presented as the project work. Third-party content remains subject to its owner's rights: source files should be kept public **only where redistribution is permitted**.
 
 ## Skills demonstrated
 
-**Excel Power Query · Data Cleaning · Data Transformation · Data Quality Assurance · Folder-Based Data Consolidation · Refresh Automation · Unpivot · PivotTables · Data Operations**
+**Excel · Power Query · Data Cleaning · Data Transformation · Data Quality · Data Validation · ETL · Folder-Based Consolidation · Refresh Automation · Unpivot · PivotTables · Data Operations**
